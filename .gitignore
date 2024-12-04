@@ -1,0 +1,7 @@
+dist/
+test-helm.yaml
+.DS_Store
+*/local-values.yaml
+test.yaml
+test-*.yaml
+.idea

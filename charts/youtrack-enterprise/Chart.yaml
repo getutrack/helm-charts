@@ -1,0 +1,15 @@
+apiVersion: v2
+
+name: youtrack-enterprise
+description: Meet Youtrack. An Enterprise software development tool to manage issues, sprints, and product roadmaps with peace of mind.
+
+type: application
+
+version: 1.0.12
+appVersion: "1.3.1"
+
+home: https://youtrack.so/
+icon: https://youtrack.so/favicon/favicon-32x32.png
+sources:
+  - https://github.com/getyoutrack/youtrack-ee
+
