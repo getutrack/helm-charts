@@ -27,13 +27,13 @@ HELM_CHART=$(dialog \
     --title "Select Chart"  \
     --cancel-label "Exit" \
     --menu "Select the Helm Chart to test" 25 50 20 \
-    "1" "Youtrack-CE" \
-    "2" "Youtrack-Enterprise" \
+    "1" "Utrack-CE" \
+    "2" "Utrack-Enterprise" \
     3>&1 1>&2 2>&3)
 
 
 if [ "$HELM_CHART" == "1" ]; then
-    helm template youtrack-ce-app-$(date +%s) charts/youtrack-ce -n myns > test-ce.yaml
+    helm template utrack-ce-app-$(date +%s) charts/utrack-ce -n myns > test-ce.yaml
     if [ $? -eq 0 ]; then
         clear
         printSuccess
@@ -41,7 +41,7 @@ if [ "$HELM_CHART" == "1" ]; then
         printFailed
     fi
 elif [ "$HELM_CHART" == "2" ]; then
-    helm template youtrack-enterprise-app-$(date +%s) charts/youtrack-enterprise -n myns > test-enterprise.yaml
+    helm template utrack-enterprise-app-$(date +%s) charts/utrack-enterprise -n myns > test-enterprise.yaml
     if [ $? -eq 0 ]; then
         clear
         printSuccess

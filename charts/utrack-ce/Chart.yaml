@@ -1,0 +1,17 @@
+apiVersion: v2
+
+name: utrack-ce
+description: Meet Utrack. An open-source software development tool to manage issues, sprints, and product roadmaps with peace of mind.
+
+type: application
+
+version: 1.0.26
+appVersion: "0.23.0"
+
+home: https://getutrack.io
+icon: https://getutrack.io/favicon/favicon-32x32.png
+sources:
+  - https://github.com/getutrack/utrack
+
+annotations:
+  artifacthub.io/license: AGPL-3.0

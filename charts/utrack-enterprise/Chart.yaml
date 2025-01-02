@@ -1,0 +1,15 @@
+apiVersion: v2
+
+name: utrack-enterprise
+description: Meet Utrack. An Enterprise software development tool to manage issues, sprints, and product roadmaps with peace of mind.
+
+type: application
+
+version: 1.0.12
+appVersion: "1.3.1"
+
+home: https://getutrack.io/
+icon: https://getutrack.io/favicon/favicon-32x32.png
+sources:
+  - https://github.com/getutrack/utrack-ee
+

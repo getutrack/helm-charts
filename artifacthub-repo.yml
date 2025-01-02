@@ -12,5 +12,5 @@
 repositoryID: 1f012931-5011-4f86-bd8e-c0ef4f819ace
 
 ignore:
-  - name: youtrack-ce
+  - name: utrack-ce
     version: develop

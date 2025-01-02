@@ -3,13 +3,13 @@ name: Helm Preview Build
 on:
   workflow_dispatch:
     inputs:
-      youtrack-ce:
-        description: "Youtrack CE"
+      utrack-ce:
+        description: "Utrack CE"
         required: false
         default: false
         type: boolean
-      youtrack-enterprise:
-        description: "Youtrack Enterprise"
+      utrack-enterprise:
+        description: "Utrack Enterprise"
         required: false
         default: false
         type: boolean
@@ -26,8 +26,8 @@ env:
   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
   GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
   CHART_PREFIX: ${{ github.run_id }}
-  BUILD_YOUTRACK_CE: ${{ github.event.inputs.youtrack-ce }}
-  BUILD_YOUTRACK_EE: ${{ github.event.inputs.youtrack-enterprise }}
+  BUILD_UTRACK_CE: ${{ github.event.inputs.utrack-ce }}
+  BUILD_UTRACK_EE: ${{ github.event.inputs.utrack-enterprise }}
 
 jobs:
   build:
@@ -77,13 +77,13 @@ jobs:
 
           chmod 400 ${{env.GNUPGHOME}}/secring.gpg
 
-      - id: build-youtrack-ce
-        if: ${{ env.BUILD_YOUTRACK_CE == 'true' }}
-        name: Build Youtrack-CE
+      - id: build-utrack-ce
+        if: ${{ env.BUILD_UTRACK_CE == 'true' }}
+        name: Build Utrack-CE
         working-directory: code
         env:
           EXPORT_DIR: ${{env.PREVIEW_BUILD_FOLDER}}
-          CHART_REPO: youtrack-ce
+          CHART_REPO: utrack-ce
           CR_KEY: ${{ env.GPG_KEY_NAME }}
           CR_PASSPHRASE_FILE: ${{env.GNUPGHOME}}/gpg-passphrase
           CR_KEYRING: ${{env.GNUPGHOME}}/secring.gpg
@@ -97,13 +97,13 @@ jobs:
           cp charts/${{env.CHART_REPO}}/README.md ${{ env.EXPORT_DIR }}/${{env.CHART_REPO}}/${{env.CHART_REPO}}.md
           helm repo index ${{ env.EXPORT_DIR }}/${{env.CHART_REPO}}
 
-      - id: build-youtrack-enterprise
-        if: ${{ env.BUILD_YOUTRACK_EE == 'true' }}
-        name: Build Youtrack-Enterprise
+      - id: build-utrack-enterprise
+        if: ${{ env.BUILD_UTRACK_EE == 'true' }}
+        name: Build Utrack-Enterprise
         working-directory: code
         env:
           EXPORT_DIR: ${{env.PREVIEW_BUILD_FOLDER}}
-          CHART_REPO: youtrack-enterprise
+          CHART_REPO: utrack-enterprise
           CR_KEY: ${{ env.GPG_KEY_NAME }}
           CR_PASSPHRASE_FILE: ${{env.GNUPGHOME}}/gpg-passphrase
           CR_KEYRING: ${{env.GNUPGHOME}}/secring.gpg
@@ -118,7 +118,7 @@ jobs:
           helm repo index ${{ env.EXPORT_DIR }}/${{env.CHART_REPO}}
 
       - name: Publish
-        if: ${{ env.BUILD_YOUTRACK_CE == 'true' || env.BUILD_YOUTRACK_EE == 'true' }}
+        if: ${{ env.BUILD_UTRACK_CE == 'true' || env.BUILD_UTRACK_EE == 'true' }}
         working-directory: code
         run: |
 
@@ -129,14 +129,14 @@ jobs:
           <p>Helm Preview Build for Branch:${{github.ref_name}}</p>
           <ul>"
           
-          if [ "${{ env.BUILD_YOUTRACK_CE }}" == "true" ]; then
+          if [ "${{ env.BUILD_UTRACK_CE }}" == "true" ]; then
             HTML_CONTENT="$HTML_CONTENT
-            <li><a href='youtrack-ce/'>Youtrack-CE</a></li>"
+            <li><a href='utrack-ce/'>Utrack-CE</a></li>"
           fi
 
-          if [ "${{ env.BUILD_YOUTRACK_EE }}" == "true" ]; then
+          if [ "${{ env.BUILD_UTRACK_EE }}" == "true" ]; then
             HTML_CONTENT="$HTML_CONTENT
-            <li><a href='youtrack-enterprise/'>Youtrack-Enterprise</a></li>"
+            <li><a href='utrack-enterprise/'>Utrack-Enterprise</a></li>"
           fi
 
           HTML_CONTENT="$HTML_CONTENT

@@ -3,12 +3,12 @@ name: Chart Release
 on:
   workflow_dispatch: 
     inputs:
-      youtrack-ce:
-        description: 'Build Youtrack CE'
+      utrack-ce:
+        description: 'Build Utrack CE'
         type: boolean
         default: false
-      youtrack-ee:
-        description: 'Build Youtrack EE'
+      utrack-ee:
+        description: 'Build Utrack EE'
         type: boolean
         default: false
 
@@ -21,15 +21,15 @@ env:
   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
   GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
   TARGET_BRANCH: "${{ github.ref_name }}"
-  CHART_NAME_CE: "youtrack-ce"
-  CHART_NAME_ENTERPRISE: "youtrack-enterprise"
+  CHART_NAME_CE: "utrack-ce"
+  CHART_NAME_ENTERPRISE: "utrack-enterprise"
   MARK_AS_LATEST: true
   MARK_AS_PRERELASE: false
   PAGES_INDEX_PATH: ""
 
 jobs:
   setup:
-    if: ${{ github.event.inputs.youtrack-ce == 'true' || github.event.inputs.youtrack-ee == 'true' }}
+    if: ${{ github.event.inputs.utrack-ce == 'true' || github.event.inputs.utrack-ee == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -75,10 +75,10 @@ jobs:
 
       - name: Remove unwanted charts
         run: |
-          if [ "${{ github.event.inputs.youtrack-ce }}" = "false" ]; then
+          if [ "${{ github.event.inputs.utrack-ce }}" = "false" ]; then
             rm -rf charts/${{ env.CHART_NAME_CE }}
           fi
-          if [ "${{ github.event.inputs.youtrack-ee }}" = "false" ]; then
+          if [ "${{ github.event.inputs.utrack-ee }}" = "false" ]; then
             rm -rf charts/${{ env.CHART_NAME_ENTERPRISE }}
           fi
 
@@ -86,11 +86,11 @@ jobs:
         if: github.ref_name != 'master'
         run: |
           flatBranchName=$(echo "${{ env.TARGET_BRANCH }}" | sed 's/\//\-/g')
-          if [ "${{ github.event.inputs.youtrack-ce }}" = "true" ]; then
+          if [ "${{ github.event.inputs.utrack-ce }}" = "true" ]; then
             sed -i "s/name: \(.*\)/name: \1-${flatBranchName}/" charts/${{ env.CHART_NAME_CE }}/Chart.yaml
           fi
 
-          if [ "${{ github.event.inputs.youtrack-ee }}" = "true" ]; then
+          if [ "${{ github.event.inputs.utrack-ee }}" = "true" ]; then
             sed -i "s/name: \(.*\)/name: \1-${flatBranchName}/" charts/${{ env.CHART_NAME_ENTERPRISE }}/Chart.yaml
           fi
 
@@ -115,12 +115,12 @@ jobs:
           CR_PASSPHRASE_FILE: ${{env.GNUPGHOME}}/gpg-passphrase
           CR_SIGN: true
 
-      - id: publish-youtrack-enterprise
-        if: ${{ github.ref_name == 'master' && github.event.inputs.youtrack-ee == 'true' }}
-        name: Harbor Publish Youtrack-Enterprise
+      - id: publish-utrack-enterprise
+        if: ${{ github.ref_name == 'master' && github.event.inputs.utrack-ee == 'true' }}
+        name: Harbor Publish Utrack-Enterprise
         env:
           CHART_REPO: ${{ env.CHART_NAME_ENTERPRISE }}
-          HELM_REPO: youtrack
+          HELM_REPO: utrack
           CR_KEY: ${{ env.GPG_KEY_NAME }}
           CR_PASSPHRASE_FILE: ${{env.GNUPGHOME}}/gpg-passphrase
           CR_KEYRING: ${{env.GNUPGHOME}}/secring.gpg
@@ -159,11 +159,11 @@ jobs:
 
       - name: Copy Readme
         run: |
-          if [ "${{ github.event.inputs.youtrack-ce }}" = "true" ]; then
-            cp code/charts/youtrack-ce/README.md pages/content/youtrack-ce.md
+          if [ "${{ github.event.inputs.utrack-ce }}" = "true" ]; then
+            cp code/charts/utrack-ce/README.md pages/content/utrack-ce.md
           fi
-          if [ "${{ github.event.inputs.youtrack-ee }}" = "true" ]; then
-            cp code/charts/youtrack-enterprise/README.md pages/content/youtrack-ee.md
+          if [ "${{ github.event.inputs.utrack-ee }}" = "true" ]; then
+            cp code/charts/utrack-enterprise/README.md pages/content/utrack-ee.md
           fi
 
       - name: Publish pages
